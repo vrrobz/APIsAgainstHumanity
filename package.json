@@ -1,0 +1,15 @@
+{
+  "name": "Cards Againt APIs",
+  "version": "1.0.0",
+  "description": "A port of the Cards Against Humanity card game as an API.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rob Zazueta",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.4.2",
+    "restify": "^4.1.1"
+  }
+}

@@ -1,0 +1,57 @@
+An API-first approach to Cards Against Humanity
+
+Goal:
+	Demonstrate NARWHL design concepts in a fun, playable way
+
+/cards/:id
+	Description:
+		Gets details about each individual card
+	GET:
+		Request:
+/games
+
+/games/:id/players
+/games/:id
+/games/:id/current_round
+/games/:id/
+/games/:id/rounds
+
+
+	POST:
+		Push my white cards to match the current black card (PLAYER ONLY) OR
+		Select the winner (JUDGE ONLY)
+	GET:
+		Get the currently played white cards
+			Only valid if a. The requestor is the current judge and b. all players have submitted their cards OR
+				All submissions have been submitted.
+
+
+
+Start:
+	Create a new game
+		[Game state NEW_GAME]
+	Invite players
+	Add players
+	Close additions (?)
+		[Game state IN_PROGRESS]
+	Shuffle the decks
+	Select first judge (Random or use a fun rule?)
+		[Player state JUDGE]
+		[Game state NEW_CARD]
+	Deal cards
+	Draw black card
+	Players submit their selections
+		[Player state SELECTIONS_SUBMITTED]
+	All players submitted selections
+		[Game state SELECTIONS_COMPLETE]
+	All players can now see selections
+	Judge votes on best submission
+		[Game state WINNER_AWARDED]
+	Submission owners revealed
+	Points awarded
+	Rotate to next judge
+		[Player state for old judge PLAYER]
+		[Player state for new judge JUDGE]
+		[Game state NEW_CARD]
+	
+			
