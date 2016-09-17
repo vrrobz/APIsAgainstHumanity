@@ -2,6 +2,7 @@ var restify = require('restify');
 //var amqp = require('amqplib/callback_api');
 var http = require('https');
 var fs = require('fs');
+var crypto = require('crypto');
 
 var cards = JSON.parse(fs.readFileSync('cah-official.json', 'utf8'));
 var app = restify.createServer();
@@ -156,7 +157,8 @@ Game state setup
 
 
 //This should be moved to an external datastore
-var games;
+var games = {};
+var gameCount = 0;
 
 //Want to dynamically load the cards and asign URLs to them.
 //This needs to be in a persistence layer
@@ -261,9 +263,47 @@ console.log(bCard);
 });
 
 app.get('/games', function(req, res, next) {
-	if(games.length <= 0) {
-		
+	var resArray = [];
+	for (var key in games) {
+		// skip loop if the property is from prototype
+		if (!games.hasOwnProperty(key)) continue;
+		links = [];
+		links.push({"rel": "_self", "href": server_host + '/games/' + key, "method": "GET"});
+		links.push({"rel": "players", "href": server_host + '/games/' + key + '/players', "method": "GET"});
+		links.push({"rel": "join", "href": server_host + '/games/' + key + '/players', "method": "POST"});
+		resArray.push({"game_id": n, "game_status": games[key].status, "_links": links});
 	}
+	res.send(200, resArray);
+	next();
+	return;
+});
+
+//We're going to add the authentication service to this. For now, though. we'll let folks self-identify
+app.post('/games', function(req, res, next) {
+	if(req.params.username) {
+		var hash = crypto.createHash('sha256');
+		hash.update(username);
+		var hashed_key = hash.digest('hex');
+		
+//TODO: Allow new games to be created
+//Hash according to Sha hash of username
+//Handle all he game mechanics. 
+
+
+	} else {
+		res.response(403, {"code": 403, "message": "Bad or mising username."});
+	}
+	next();
+	return;
+});
+
+//Would be cool to load up a Swagger file and just have this respond with the definition for each endpoint
+app.opts('/', function(req, res, next) {
+	var options = {};
+	options.message = "I will eventually describe the API here using some common format like Swagger.";
+	res.send(200, options);
+	next();
+	return;
 });
 
 
